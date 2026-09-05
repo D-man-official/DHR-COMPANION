@@ -4,10 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
     <title>DHR Heritage Companion</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiREhSIEhlcml0YWdlIENvbXBhbmlvbiIsInNob3J0X25hbWUiOiJESFIgSGVyaXRhZ2UiLCJkZXNjcmlwdGlvbiI6IkV4cGxvcmUgdGhlIFRveSBUcmFpbi4gRXZlbiB3aXRob3V0IGEgc2lnbmFsLiIsInN0YXJ0X3VybCIiLiIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMxYTFhMWEiLCJ0aGVtZV9jb2xvciI6IiNkNDUyM2UiLCJpY29ucyI6W3sic3JjIjoiZGF0YTppbWFnZS9zdmcreG1sLDxzdmcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJyB2aWV3Qm94PScwIDAgMTAwIDEwMCc+PHJlY3Qgd2lkdGg9JzEwMCcgaGVpZ2h0PScxMDAnIHJ4PScyMCcgZmlsbD0nI2Q0NTIzZScvPjx0ZXh0IHg9JzUwJyB5PSc2MCcgZm9udC1zaXplPSc0MCcgdGV4dC1hbmNob3I9J21pZGRsZScgZmlsbD0nd2hpdGUnIGZvbnQtZmFtaWx5PSdzYW5zLXNlcmlmJz7imqDwn5OmPC90ZXh0Pjwvc3ZnPg=="LCJzaXplcyI6IjE5MngxOTIiLCJ0eXBlIjoiaW1hZ2Uvc3ZnK3htbCJ9XX0=" />
-    <style>
-    </style>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiREhTIEhlcml0YWdlIENvbXBhbmlvbiIsInNob3J0X25hbWUiOiJESFIgSGVyaXRhZ2UiLCJkZXNjcmlwdGlvbiI6IkV4cGxvcmUgdGhlIFRveSBUcmFpbi4gRXZlbiB3aXRob3V0IGEgc2lnbmFsLiIsInN0YXJ0X3VybCIiLiIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMxYTFhMWEiLCJ0aGVtZV9jb2xvciI6IiNkNDUyM2UiLCJpY29ucyI6W3sic3JjIjoiZGF0YTppbWFnZS9zdmcreG1sLDxzdmcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJyB2aWV3Qm94PScwIDAgMTAwIDEwMCc+PHJlY3Qgd2lkdGg9JzEwMCcgaGVpZ2h0PScxMDAnIHJ4PScyMCcgZmlsbD0nI2Q0NTIzZScvPjx0ZXh0IHg9JzUwJyB5PSc2MCcgZm9udC1zaXplPSc0MCcgdGV4dC1hbmNob3I9J21pZGRsZScgZmlsbD0nd2hpdGUnIGZvbnQtZmFtaWx5PSdzYW5zLXNlcmlmJz7imqDwn5OmPC90ZXh0Pjwvc3ZnPg=="LCJzaXplcyI6IjE5MngxOTIiLCJ0eXBlIjoiaW1hZ2Uvc3ZnK3htbCJ9XX0=" />
 </head>
 <body>
 
@@ -27,12 +25,15 @@
                 </span>
             </a>
             <div class="header-actions">
+                <button class="btn-theme" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+                    🌙
+                </button>
                 <span class="offline-badge" id="offlineBadge">
                     <span class="dot" id="statusDot"></span>
                     <span id="statusLabel">Offline Ready</span>
                 </span>
                 <span class="demo-badge" id="demoBadge">
-                    <span class="icon">📍</span> Demo Journey
+                    <span class="icon">📍</span> Demo
                 </span>
             </div>
         </header>
@@ -40,15 +41,16 @@
         <!-- ─── VIEW: HOME ─── -->
         <section class="view active" id="view-home">
             <div class="hero-section">
-                <h1 style="font-size:1.5rem;line-height:1.2;">Your offline guide to the<br /><strong style="color:var(--brand);">Darjeeling Himalayan Railway</strong></h1>
-                <p class="tagline">Explore the Toy Train. <strong>Even without a signal.</strong></p>
+                <span class="hero-badge">🚂 Offline Heritage Guide</span>
+                <h1>Explore the<br /><strong>Darjeeling Himalayan Railway</strong></h1>
+                <p class="tagline">Your pocket guide to the Toy Train. <strong>Even without a signal.</strong></p>
             </div>
 
             <!-- Status Cards -->
             <div class="status-grid">
                 <div class="status-card">
                     <div class="label">Knowledge Base</div>
-                    <div class="value"><span class="emoji">📚</span> 24 heritage facts</div>
+                    <div class="value"><span class="emoji">📚</span> <span id="factCount">24</span> facts</div>
                 </div>
                 <div class="status-card">
                     <div class="label">Status</div>
@@ -69,26 +71,34 @@
 
             <!-- Quick Questions -->
             <div class="quick-questions">
-                <h3>Quick questions</h3>
+                <h3>⚡ Quick questions</h3>
                 <div class="quick-grid" id="quickGrid">
-                    <button data-q="Why does the train loop here?">🔄 Why does the train loop here?</button>
+                    <button data-q="Why does the train loop here?">🔄 Why the loop?</button>
                     <button data-q="Tell me about Ghum.">🏔️ Tell me about Ghum</button>
                     <button data-q="What is a Z-reverse?">↩️ What is a Z-reverse?</button>
-                    <button data-q="Why is DHR UNESCO heritage?">🏛️ Why is DHR UNESCO heritage?</button>
-                    <button data-q="Tell me about the B-class steam locomotives.">🚂 B-class locomotives</button>
+                    <button data-q="Why is DHR UNESCO heritage?">🏛️ Why UNESCO?</button>
+                    <button data-q="Tell me about the B-class steam locomotives.">🚂 B-class locos</button>
                 </div>
             </div>
 
-            <div style="margin-top:12px;font-size:0.75rem;color:var(--text-muted);display:flex;gap:16px;flex-wrap:wrap;border-top:1px solid var(--warm-border);padding-top:12px;">
+            <div class="home-footer">
                 <span>🟢 <strong>Offline-first</strong> — knowledge stored on device</span>
                 <span>📍 <span id="homeLocationLabel">Batasia Loop</span> selected</span>
+            </div>
+
+            <div class="demo-banner">
+                <span class="icon">🧭</span>
+                This is a <strong>demo journey</strong> — all heritage knowledge is stored locally.
             </div>
         </section>
 
         <!-- ─── VIEW: ROUTE ─── -->
         <section class="view" id="view-route">
             <div class="route-container">
-                <h2 style="font-size:1.2rem;margin:0 0 4px;">🗺️ DHR Route</h2>
+                <div class="route-header">
+                    <h2>🗺️ DHR Route</h2>
+                    <span class="route-count" id="routeCount">8 stops</span>
+                </div>
                 <p class="text-muted text-sm" style="margin-bottom:8px;">Select a heritage point to set context</p>
 
                 <div class="route-list" id="routeList">
@@ -106,7 +116,7 @@
         <!-- ─── VIEW: ASK (CHAT) ─── -->
         <section class="view" id="view-ask">
             <div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0 8px;">
-                <h2 style="font-size:1.2rem;">🤖 Ask the Heritage Guide</h2>
+                <h2 style="font-size:1.2rem;">🤖 Ask the Guide</h2>
                 <span class="text-sm text-muted" id="chatContextLabel">📍 Batasia Loop</span>
             </div>
             <div class="chat-container">
@@ -145,7 +155,6 @@
         </nav>
     </div>
 
-    
-    <script src="./script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
