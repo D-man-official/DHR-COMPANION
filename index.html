@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+    <title>DHR Heritage Companion</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiREhSIEhlcml0YWdlIENvbXBhbmlvbiIsInNob3J0X25hbWUiOiJESFIgSGVyaXRhZ2UiLCJkZXNjcmlwdGlvbiI6IkV4cGxvcmUgdGhlIFRveSBUcmFpbi4gRXZlbiB3aXRob3V0IGEgc2lnbmFsLiIsInN0YXJ0X3VybCIiLiIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMxYTFhMWEiLCJ0aGVtZV9jb2xvciI6IiNkNDUyM2UiLCJpY29ucyI6W3sic3JjIjoiZGF0YTppbWFnZS9zdmcreG1sLDxzdmcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJyB2aWV3Qm94PScwIDAgMTAwIDEwMCc+PHJlY3Qgd2lkdGg9JzEwMCcgaGVpZ2h0PScxMDAnIHJ4PScyMCcgZmlsbD0nI2Q0NTIzZScvPjx0ZXh0IHg9JzUwJyB5PSc2MCcgZm9udC1zaXplPSc0MCcgdGV4dC1hbmNob3I9J21pZGRsZScgZmlsbD0nd2hpdGUnIGZvbnQtZmFtaWx5PSdzYW5zLXNlcmlmJz7imqDwn5OmPC90ZXh0Pjwvc3ZnPg=="LCJzaXplcyI6IjE5MngxOTIiLCJ0eXBlIjoiaW1hZ2Uvc3ZnK3htbCJ9XX0=" />
+    <style>
+    </style>
+</head>
+<body>
+
+    <!-- ─── TOAST ─── -->
+    <div id="toast" class="toast-offline">🌐 Using offline heritage knowledge</div>
+
+    <!-- ─── APP ─── -->
+    <div class="app-container" id="app">
+
+        <!-- HEADER -->
+        <header class="app-header">
+            <a class="app-brand" href="#">
+                <span class="app-brand-icon">🚂</span>
+                <span class="app-brand-text">
+                    DHR Companion
+                    <small>Heritage Guide</small>
+                </span>
+            </a>
+            <div class="header-actions">
+                <span class="offline-badge" id="offlineBadge">
+                    <span class="dot" id="statusDot"></span>
+                    <span id="statusLabel">Offline Ready</span>
+                </span>
+                <span class="demo-badge" id="demoBadge">
+                    <span class="icon">📍</span> Demo Journey
+                </span>
+            </div>
+        </header>
+
+        <!-- ─── VIEW: HOME ─── -->
+        <section class="view active" id="view-home">
+            <div class="hero-section">
+                <h1 style="font-size:1.5rem;line-height:1.2;">Your offline guide to the<br /><strong style="color:var(--brand);">Darjeeling Himalayan Railway</strong></h1>
+                <p class="tagline">Explore the Toy Train. <strong>Even without a signal.</strong></p>
+            </div>
+
+            <!-- Status Cards -->
+            <div class="status-grid">
+                <div class="status-card">
+                    <div class="label">Knowledge Base</div>
+                    <div class="value"><span class="emoji">📚</span> 24 heritage facts</div>
+                </div>
+                <div class="status-card">
+                    <div class="label">Status</div>
+                    <div class="value"><span class="emoji">✅</span> Available offline</div>
+                </div>
+                <div class="status-card">
+                    <div class="label">Current Context</div>
+                    <div class="value" id="homeContext"><span class="emoji">📍</span> Batasia Loop</div>
+                </div>
+            </div>
+
+            <!-- Ask -->
+            <div class="ask-input-wrap">
+                <input type="text" id="homeQuestion" placeholder="Ask about the DHR…" autocomplete="off" />
+                <button class="btn-voice" id="voiceBtn" title="Voice input" aria-label="Voice input">🎤</button>
+                <button class="btn-submit" id="homeSubmit" aria-label="Ask">→</button>
+            </div>
+
+            <!-- Quick Questions -->
+            <div class="quick-questions">
+                <h3>Quick questions</h3>
+                <div class="quick-grid" id="quickGrid">
+                    <button data-q="Why does the train loop here?">🔄 Why does the train loop here?</button>
+                    <button data-q="Tell me about Ghum.">🏔️ Tell me about Ghum</button>
+                    <button data-q="What is a Z-reverse?">↩️ What is a Z-reverse?</button>
+                    <button data-q="Why is DHR UNESCO heritage?">🏛️ Why is DHR UNESCO heritage?</button>
+                    <button data-q="Tell me about the B-class steam locomotives.">🚂 B-class locomotives</button>
+                </div>
+            </div>
+
+            <div style="margin-top:12px;font-size:0.75rem;color:var(--text-muted);display:flex;gap:16px;flex-wrap:wrap;border-top:1px solid var(--warm-border);padding-top:12px;">
+                <span>🟢 <strong>Offline-first</strong> — knowledge stored on device</span>
+                <span>📍 <span id="homeLocationLabel">Batasia Loop</span> selected</span>
+            </div>
+        </section>
+
+        <!-- ─── VIEW: ROUTE ─── -->
+        <section class="view" id="view-route">
+            <div class="route-container">
+                <h2 style="font-size:1.2rem;margin:0 0 4px;">🗺️ DHR Route</h2>
+                <p class="text-muted text-sm" style="margin-bottom:8px;">Select a heritage point to set context</p>
+
+                <div class="route-list" id="routeList">
+                    <!-- rendered by JS -->
+                </div>
+
+                <div class="route-context-card" id="routeContextCard">
+                    <div class="location-name" id="routeContextName">Batasia Loop</div>
+                    <div class="location-hint" id="routeContextHint">Ask me anything about Batasia Loop.</div>
+                    <button class="btn-ask-about" id="routeAskBtn">💬 Ask about this place</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── VIEW: ASK (CHAT) ─── -->
+        <section class="view" id="view-ask">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0 8px;">
+                <h2 style="font-size:1.2rem;">🤖 Ask the Heritage Guide</h2>
+                <span class="text-sm text-muted" id="chatContextLabel">📍 Batasia Loop</span>
+            </div>
+            <div class="chat-container">
+                <div class="chat-messages" id="chatMessages">
+                    <!-- rendered by JS -->
+                </div>
+                <div class="chat-controls">
+                    <button class="btn-clear" id="clearChat">🗑️ Clear</button>
+                    <div style="flex:1;"></div>
+                    <span class="text-xs text-muted" id="chatStatus">Using offline knowledge</span>
+                </div>
+                <div class="ask-input-wrap" style="margin:4px 0 0;">
+                    <input type="text" id="chatQuestion" placeholder="Ask a question…" autocomplete="off" />
+                    <button class="btn-voice" id="chatVoiceBtn" title="Voice input" aria-label="Voice input">🎤</button>
+                    <button class="btn-submit" id="chatSubmit">→</button>
+                </div>
+                <div class="follow-up-grid" id="followUpGrid">
+                    <!-- rendered by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── VIEW: HERITAGE ─── -->
+        <section class="view" id="view-heritage">
+            <div class="heritage-detail" id="heritageContainer">
+                <!-- rendered by JS -->
+            </div>
+        </section>
+
+        <!-- ─── BOTTOM NAV ─── -->
+        <nav class="bottom-nav" id="bottomNav">
+            <button data-view="home" class="active"><span class="nav-icon">🏠</span> Home</button>
+            <button data-view="route"><span class="nav-icon">🗺️</span> Route</button>
+            <button data-view="ask"><span class="nav-icon">🤖</span> Ask</button>
+            <button data-view="heritage"><span class="nav-icon">🏛️</span> Heritage</button>
+        </nav>
+    </div>
+
+    
+    <script src="./script.js"></script>
+</body>
+</html>
